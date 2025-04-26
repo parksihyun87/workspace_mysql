@@ -101,14 +101,19 @@ left outer join clubtbl c
 on sc.clubname=c.clubname
 order by s.stdname;
 
-SELECT c.clubname, c.roomno, c.stdname, c.addr
+use cookdb;
+desc stdclubtbl;
+desc clubtbl;
+desc stdtbl;
+
+SELECT c.clubname, c.roomno, s.stdname, s.addr
 FROM stdtbl s 
 LEFT OUTER JOIN stdclubtbl sc 
 ON sc.stdname= s.stdname
 RIGHT OUTER JOIN clubtbl c 
 ON sc.clubname= c.clubname
 ORDER BY c.clubname;
--- 안나옴
+
 
 USE cookDB;
 CREATE TABLE empTBL(emp CHAR(3), manager CHAR(3), empTel VARCHAR(8));
