@@ -94,8 +94,8 @@ delimiter ;
 -- 실습 못해봄
 
 USE cookDB;
-DROP TABLE buyTBL3; 
-CREATE TABLE backup_userTBL3
+DROP TABLE buyTBL; 
+CREATE TABLE backup_userTBL
  (userID char(8) NOT NULL, 
 userNamevar char(10) NOT NULL, 
 birthYear int NOT NULL, 
@@ -125,6 +125,8 @@ delimiter ;
 
 update usertbl set addr= '제주' where userid='KJD';
 -- update 옵션 체크? 했는데.
+
+select * from backup_usertbl;
 
 drop trigger if exists usertbl_inserttrg;
 delimiter $$
