@@ -164,7 +164,63 @@ INSERT INTO userTBL VALUES
         
 select * from usertbl;
 
-    
+    use mysql;
+drop database if exists triggerdb;
+create database if not exists triggerdb;
+
+use triggerdb;
+CREATE TABLE orderTBL
+( orderNo INT AUTO_INCREMENT PRIMARY KEY,
+userID VARCHAR(5),
+prodName VARCHAR(5), 
+orderamount INT 
+);
+ CREATE TABLE prodTBL
+( prodName VARCHAR(5),
+account INT 
+);
+ CREATE TABLE deliverTBL
+( deliverNo  INT AUTO_INCREMENT PRIMARY KEY,
+prodName VARCHAR(5),
+account INT
+);
+
+INSERT INTO prodTBL VALUES ('사과', 100);
+ INSERT INTO prodTBL VALUES ('배', 100);
+ INSERT INTO prodTBL VALUES ('귤', 100);
+ 
+ drop trigger if exists ordertrg;
+ delimiter $$
+ create trigger ordertrg
+ after insert
+ on ordertbl
+ for each row
+ begin
+	update prodtbl set account = account - new.orderamount
+    where prodname = new.prodname;
+ end $$
+ delimiter ;
+ 
+ drop trigger if exists prdotrg;
+ delimiter $$
+ create trigger prodtrg -- (크리에이트 트리거,이름) 2가지
+ after update -- (애/비, 명령어) 2가지
+ on prodtbl  -- 붙는 테이블
+ for each row -- 포이치 로우
+ begin
+	declare orderamount int;
+	set orderamount= old.account - new.account;
+    insert into delivertbl(prodname,account)
+    values(new.prodname,orderamount);
+ end $$
+ delimiter ;
+ 
+ insert into ordertbl values (null, 'john', '배', 5);
+ 
+select * from ordertbl;
+select * from prodtbl;
+select * from delivertbl;
+ 
 
 
 
